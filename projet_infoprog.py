@@ -75,12 +75,6 @@ open_button.grid(column=0, row=1, sticky='w', padx=10, pady=10)
 
 root.mainloop()
 
-import csv
-data=[coo,liaisons]
-
-with open('chimie.csv', 'w') as f:
-    writer=csv.writer(f)
-    writer.writerow(data)
 
 
 
