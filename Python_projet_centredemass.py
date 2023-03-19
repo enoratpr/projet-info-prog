@@ -91,8 +91,21 @@ def open_mol_file():
         ax = fig.add_subplot(111, projection='3d')
 
         # Tracer les atomes
-        ax.scatter(coordinates_array[:, 0], coordinates_array[:, 1], \
-                   coordinates_array[:, 2], s=600)
+        #ax.scatter(coordinates_array[:, 0], coordinates_array[:, 1], \
+                   #coordinates_array[:, 2], s=600)
+            
+        letters = ['C', 'H', 'N', 'O']
+        x1 = coordinates_array[:,0]
+        y1 = coordinates_array[:,1]
+        z1 = coordinates_array[:,2]
+
+        colors = {'O': 'red', 'H': 'white', 'N': 'blue', 'C': 'black'}
+        
+        for i, letter in enumerate(atom):
+            ax.scatter(x1[i], y1[i], z1[i], color=colors[letter], marker='o', s=600)
+            
+        plt.show()
+        
                
         #Centre de masse 
         mean1 = np.mean(coordinates_array[:,0])
