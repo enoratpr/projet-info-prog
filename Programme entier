@@ -153,6 +153,7 @@ def open_mol_file():
             # Récupérer les coordonnées des deux atomes reliés entre eux
             atom1_coord = coordinates_array[atom1_connectivite]
             atom2_coord = coordinates_array[atom2_connectivite]
+            #tracer des liaisons simples, doubles et triples
             bond_type = int(liaison[2])
             
        
