@@ -131,7 +131,7 @@ def open_mol_file():
         x = mean1
         y = mean2
         z = mean3
-        color = 'yellow'
+        color = 'purple'
         ax.scatter(x, y, z, s=100, c=color, marker='o')
         plt.show()
         print(mean1, mean2, mean3)
