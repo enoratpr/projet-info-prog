@@ -96,12 +96,13 @@ def open_mol_file():
             
         #Couleur atome 
 
-        letters = ['C', 'H', 'N', 'O']
+        letters = ['C', 'H', 'N', 'O', 'S', 'Cl']
         x1 = coordinates_array[:,0]
         y1 = coordinates_array[:,1]
         z1 = coordinates_array[:,2]
 
-        colors = {'O': 'red', 'H': 'white', 'N': 'blue', 'C': 'black'}
+        colors = {'O': 'red', 'H': 'white', 'N': 'blue', 'C': 'black', \
+                  'S': 'yellow', 'Cl': 'green'}
         
         for i, letter in enumerate(atom):
                 ax.scatter(x1[i], y1[i], z1[i], color=colors[letter], marker='o', s=600)
@@ -152,21 +153,42 @@ def open_mol_file():
             # Récupérer les coordonnées des deux atomes reliés entre eux
             atom1_coord = coordinates_array[atom1_connectivite]
             atom2_coord = coordinates_array[atom2_connectivite]
-
-            # Déterminer le type de liaison
-            bond_type = int(liaison[2])*5 #grosseur de la liaison
-#A faire :  grossir quand double liaison ou triple
-
-#A faire : couleur atome et taille en fonction de l'atome faire pour ( C H O N )
-
-
-            # Tracer la liaison avec la fonction plot()
-            ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
-            atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
-            linewidth=bond_type, color="red")
-
-
-        # Afficher la figure
+            bond_type = int(liaison[2])
+            
+       
+            if bond_type == 2 :
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]+0.05, \
+                atom2_coord[1]+0.05], [atom1_coord[2], atom2_coord[2]], '-', \
+                linewidth= 3, color="red")
+                    
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]-0.05, \
+                atom2_coord[1]-0.05], [atom1_coord[2],atom2_coord[2]], '-', linewidth= 3, color="red")
+            
+            
+            elif bond_type == 3 :
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
+                atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
+                linewidth=3, color="red")
+                    
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]-0.001, \
+                atom2_coord[1]-0.001], [atom1_coord[2], atom2_coord[2]], '-', \
+                linewidth=3, color="red") 
+                    
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]+0.001, \
+                atom2_coord[1]+0.001], [atom1_coord[2], atom2_coord[2]], '-', \
+                linewidth=3, color="red")
+                    
+              
+            
+            else :
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
+                atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
+                linewidth=3, color="red")
+                    
+                
+                    
+        ax.set_box_aspect([1, 1, 1])            
+                
         plt.show()
 
 
