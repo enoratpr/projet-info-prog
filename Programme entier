@@ -188,7 +188,8 @@ def open_mol_file():
                     
                 
                     
-        ax.set_box_aspect([1, 1, 1])            
+        ax.set_box_aspect([1, 1, 1])
+        ax.set_ylim(-1, 1)
                 
         plt.show()
 
