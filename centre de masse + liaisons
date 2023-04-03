@@ -78,6 +78,28 @@ def open_mol_file():
         # Convertir les coordonnées en un tableau NumPy
         coordinates_array = np.array(coo, dtype=float)
         
+        # Calculer le centre des atomes
+        center = np.mean(coordinates_array, axis=0)
+        
+        # calcul de la translation nécessaire pour ramener le centre de masse à (0, 0, 0)
+        translation = -center
+        
+        # translation des coordonnées
+        translated_coordinates = coordinates_array + translation
+        
+        # vérification si la molécule possède un centre d'inversion
+        has_inversion_center = True
+
+        for coord in coordinates_array:
+            inv_coord = -coord
+            if not np.any((coordinates_array == inv_coord).all(axis=1)):
+                has_inversion_center = False
+                break
+
+        if has_inversion_center:
+            print("La molécule possède un centre d'inversion.")
+        else:
+            print("La molécule ne possède pas de centre d'inversion.")
         
 
         # Créer une figure 3D
