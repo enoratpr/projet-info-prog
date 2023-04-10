@@ -259,12 +259,12 @@ def open_mol_file():
                 atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
                 linewidth=3, color="red")
                     
-                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]-0.001, \
-                atom2_coord[1]-0.001], [atom1_coord[2], atom2_coord[2]], '-', \
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]-0.08, \
+                atom2_coord[1]-0.08], [atom1_coord[2], atom2_coord[2]], '-', \
                 linewidth=3, color="red") 
                     
-                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]+0.001, \
-                atom2_coord[1]+0.001], [atom1_coord[2], atom2_coord[2]], '-', \
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]+0.08, \
+                atom2_coord[1]+0.08], [atom1_coord[2], atom2_coord[2]], '-', \
                 linewidth=3, color="red")
                     
               
