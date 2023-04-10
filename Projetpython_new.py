@@ -242,7 +242,7 @@ def open_mol_file():
             atom1_coord = coordinates_array[atom1_connectivite]
             atom2_coord = coordinates_array[atom2_connectivite]
             #tracer des liaisons simples, doubles et triples
-            bond_type = int(liaison[2])
+            bond_type = int(liaison[2]) #le 3 ème élément de la liste liaison
             
        
             if bond_type == 2 :
