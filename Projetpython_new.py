@@ -54,7 +54,7 @@ def open_mol_file():
             coo_line.append(line_content_ok[1])
             coo_line.append(line_content_ok[2])
             coo.append(coo_line)
-        print(coo) #verif
+        
         
         #extraction des atomes
         atom = []
@@ -64,7 +64,7 @@ def open_mol_file():
             atom_line = []
             atom_line.append(line_content_ok[3])
             atom.append(atom_line[0])  
-        print(atom)#verif 
+        
 
 
         #extraction des liaisons
@@ -76,9 +76,7 @@ def open_mol_file():
             liaison_line.append(line_content_ok[0])
             liaison_line.append(line_content_ok[1])
             liaison_line.append(line_content_ok[2])
-            liaisons.append(liaison_line)
-        print(liaisons) #verif
-        
+            liaisons.append(liaison_line)       
                     
         
         # Convertir les coordonnées en un tableau NumPy
@@ -198,13 +196,6 @@ def open_mol_file():
         else:
             print("La molécule n'est pas plane.")
             
-        
-        # Ajouter les labels pour chaque axe
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_zlabel('Z')
-
-   
         plt.show()
         
             
