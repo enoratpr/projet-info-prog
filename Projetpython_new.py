@@ -136,7 +136,7 @@ def open_mol_file():
 
         colors = {'O': 'red', 'H': 'white', 'N': 'blue', 'C': 'black', \
                   'S': 'yellow', 'Cl': 'green'}
-        size = {'O': 1000, 'H': 300, 'N': 1500, 'C': 2000, 'S' : 1000, 'Cl': 750}
+        size = {'O': 1000, 'H': 500, 'N': 1500, 'C': 2000, 'S' : 1000, 'Cl': 750}
         
         atom_color_list=[]
         
@@ -273,11 +273,6 @@ def open_mol_file():
                 ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
                 atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
                 linewidth=3, color="red")
-                    
-                
-                    
-        ax.set_box_aspect([1, 1, 1])
-        ax.set_ylim(-1, 1)
                 
         plt.show()
 
