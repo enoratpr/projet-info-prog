@@ -129,9 +129,9 @@ def open_mol_file():
         
         atom_color_list=[]
         
-        for i, letter in enumerate(atom):
-                ax.scatter(x1[i], y1[i], z1[i], color=colors[letter], marker='o', s=size[letter])
-                atom_color_list.append((letter, colors[letter]))
+        for i, letters in enumerate(atom):
+                ax.scatter(x1[i], y1[i], z1[i], color=colors[letters], marker='o', s=size[letters])
+                atom_color_list.append((letters, colors[letters]))
 
         print(atom_color_list)
         
