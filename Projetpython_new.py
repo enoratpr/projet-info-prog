@@ -182,20 +182,16 @@ def open_mol_file():
 
         # Calculer le vecteur normal à la molécule
         normal_vector = np.cross(vectors_array[0], vectors_array[1])
-
-       # Vérifier que tous les angles sont proches de 90 degrés
-        is_planar = False
-        for i in range(1, len(vectors_array)):
-            angle = np.rad2deg(np.arccos(np.dot(vectors_array[i-1],vectors_array[i]) / \
-                    (np.linalg.norm(vectors_array[i-1]) \
-                    * np.linalg.norm(vectors_array[i]))))
-            angle_verif = abs(angle - 90)
-            if angle_verif==90:  # tolérance de 0.01 degré 
-               is_planar = True
-               break
-            else : 
-               is_planar = False
-
+       
+        # Vérifier que tous les vecteurs de liaison sont parallèles au vecteur normal
+        is_planar = True
+        tolerance = 1e-10
+        for i in range(len(vectors_array)):
+            dot_product = np.dot(vectors_array[i], normal_vector)
+            if not np.isclose(dot_product, 0, atol=tolerance):
+                is_planar = False
+                break
+                
      # Afficher le résultat
         if is_planar:
             print("La molécule est plane.") 
