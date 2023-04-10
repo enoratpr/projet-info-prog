@@ -107,16 +107,27 @@ def open_mol_file():
             print("La molécule possède un centre d'inversion.")
         else:
             print("La molécule ne possède pas de centre d'inversion.")
-
+            
+            
+        #une boîte cubique dans laquelle votre molécule se trouvera forcément en entier,
+        #sans avoir de problème de liaison éclatée    
+        x_min, y_min, z_min = np.min(coordinates_array, axis=0)
+        x_max, y_max, z_max = np.max(coordinates_array, axis=0)
+        
+        # Trouver la plus grande valeur absolue parmi les valeurs min/max
+        limit = max(abs(x_min), abs(x_max), abs(y_min), abs(y_max), abs(z_min), abs(z_max))
+        # Multiplier par 1.1 ou 1.2 pour éviter de couper des atomes en deux sur la limite
+        limit *= 1.2 
+        
         # Créer une figure 3D
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
+        ax.set_xlim([-limit, limit])
+        ax.set_ylim([-limit, limit])
+        ax.set_zlim([-limit, limit])
 
-        # Tracer les atomes
-        #ax.scatter(coordinates_array[:, 0], coordinates_array[:, 1], \
-                  # coordinates_array[:, 2], s=600)
-            
-        #Couleur atome 
+       
+       #Couleur atome 
 
         letters = ['C', 'H', 'N', 'O', 'S', 'Cl']
         x1 = coordinates_array[:,0]
