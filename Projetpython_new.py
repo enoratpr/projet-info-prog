@@ -78,7 +78,7 @@ def open_mol_file():
             liaison_line.append(line_content_ok[1])
             liaison_line.append(line_content_ok[2])
             liaisons.append(liaison_line)
-         print(liaisons)
+        print(liaisons)
                     
         
         # Convertir les coordonnées en un tableau NumPy
