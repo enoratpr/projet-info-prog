@@ -54,6 +54,7 @@ def open_mol_file():
             coo_line.append(line_content_ok[1])
             coo_line.append(line_content_ok[2])
             coo.append(coo_line)
+        print(coo) #verif
         
         
         #extraction des atomes
@@ -64,7 +65,7 @@ def open_mol_file():
             atom_line = []
             atom_line.append(line_content_ok[3])
             atom.append(atom_line[0])  
-        
+        print(atom)
 
 
         #extraction des liaisons
@@ -76,7 +77,8 @@ def open_mol_file():
             liaison_line.append(line_content_ok[0])
             liaison_line.append(line_content_ok[1])
             liaison_line.append(line_content_ok[2])
-            liaisons.append(liaison_line)       
+            liaisons.append(liaison_line)
+         print(liaisons)
                     
         
         # Convertir les coordonnées en un tableau NumPy
@@ -138,9 +140,9 @@ def open_mol_file():
         
         atom_color_list=[]
         
-        for i, letter in enumerate(atom):
-                ax.scatter(x1[i], y1[i], z1[i], color=colors[letter], marker='o', s=size[letter])
-                atom_color_list.append((letter, colors[letter]))
+        for i, letters in enumerate(atom):
+                ax.scatter(x1[i], y1[i], z1[i], color=colors[letters], marker='o', s=size[letters])
+                atom_color_list.append((letters, colors[letters]))
 
         print(atom_color_list)
         
