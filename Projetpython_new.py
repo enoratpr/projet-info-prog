@@ -39,7 +39,7 @@ def open_mol_file():
         nl = int(data_ok[1]) # Nombre liaisons 
     
 
-        print(nc," ",nl,"") #verif
+        #print(nc," ",nl,"") #verif
         
         nc_fin = nc + 4
         nl_fin = nl + nc + 4
@@ -54,7 +54,7 @@ def open_mol_file():
             coo_line.append(line_content_ok[1])
             coo_line.append(line_content_ok[2])
             coo.append(coo_line)
-        print(coo) #verif
+       # print(coo) #verif
         
         
         #extraction des atomes
@@ -65,7 +65,7 @@ def open_mol_file():
             atom_line = []
             atom_line.append(line_content_ok[3])
             atom.append(atom_line[0])  
-        print(atom)
+       # print(atom)
 
 
         #extraction des liaisons
@@ -78,7 +78,7 @@ def open_mol_file():
             liaison_line.append(line_content_ok[1])
             liaison_line.append(line_content_ok[2])
             liaisons.append(liaison_line)
-        print(liaisons)
+      #  print(liaisons)
                     
         
         # Convertir les coordonnées en un tableau NumPy
@@ -217,7 +217,7 @@ def open_mol_file():
         color = 'purple'
         ax.scatter(x, y, z, s=100, c=color, marker='o')
         plt.show()
-        print(mean1, mean2, mean3)
+      #  print(mean1, mean2, mean3)
 
 
 
