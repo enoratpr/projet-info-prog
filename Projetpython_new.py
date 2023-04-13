@@ -157,9 +157,11 @@ def open_mol_file():
         for i in range(len(coordinates_array)):
            for j in range(i+1, len(coordinates_array)):
         # calculer le produit scalaire entre les vecteurs i et j
-            vector_i_dot_vector_j = np.dot(coordinates_array[i], coordinates_array[j])
-            vect = int(vector_i_dot_vector_j)
-
+            vi = coordinates_array[i] / (np.linalg.norm(coordinates_array[i]) + 1e-16) #le 1e-16 sert juste Ã  Ã©viter le cas oÃ¹ la norme serait nulle
+            vj = coordinates_array[j] / (np.linalg.norm(coordinates_array[j]) + 1e-16) #mÃªme si normalement on l'a dÃ©jÃ  Ã©vitÃ© avec les continue plus haut
+            vect = np.dot(vi, vj)
+            print(vect)
+            
         # stocker le produit scalaire linéaire s'il est trouvé
             if abs(vect) == 1:
                 is_linear = True
@@ -174,30 +176,34 @@ def open_mol_file():
             print("La molécule est linéaire ")
         else:
             print("La molécule n'est pas linéaire.")
-            
-         
-        # Molécule plane      
-        # Calculer les vecteurs de liaison entre les atomes
-        vectors_array = np.diff(coordinates_array, axis=0)
-
-        # Calculer le vecteur normal à la molécule
-        normal_vector = np.cross(vectors_array[0], vectors_array[1])
-       
-        # Vérifier que tous les vecteurs de liaison sont parallèles au vecteur normal
-        is_planar = True
-        tolerance = 1e-10
-        for i in range(len(vectors_array)):
-            dot_product = np.dot(vectors_array[i], normal_vector)
-            if not np.isclose(dot_product, 0, atol=tolerance):
-                is_planar = False
-                break
+             if nc > 2 : 
+                # Molécule plane      
                 
-     # Afficher le résultat
-        if is_planar:
-            print("La molécule est plane.") 
-        else:
-            print("La molécule n'est pas plane.")
-            
+                # Calculer les vecteurs de liaison entre les atomes
+                vectors_array = np.diff(coordinates_array, axis=0)
+        
+                # Calculer le vecteur normal à la molécule
+                normal_vector = np.cross(vectors_array[0], vectors_array[1])
+        
+               
+                # Vérifier que tous les vecteurs de liaison sont parallèles au vecteur normal
+                
+                is_planar = True
+                tolerance = 1e-10
+                for i in range(len(vectors_array)):
+                    dot_product = np.dot(vectors_array[i], normal_vector)
+                    if not np.isclose(dot_product, 0, atol=tolerance):
+                        is_planar = False
+                        break
+                
+            # Afficher le résultat
+                if is_planar:
+                    print("La molécule est plane.") 
+                else:
+                    print("La molécule n'est pas plane.")
+            else :
+                print("La molécule ne comporte que deux atomes, elle ne peut donc être plane")
+                
         plt.show()
         
             
