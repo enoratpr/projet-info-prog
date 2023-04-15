@@ -160,7 +160,7 @@ def open_mol_file():
             vi = coordinates_array[i] / (np.linalg.norm(coordinates_array[i]) + 1e-16) #le 1e-16 sert juste Ã  Ã©viter le cas oÃ¹ la norme serait nulle
             vj = coordinates_array[j] / (np.linalg.norm(coordinates_array[j]) + 1e-16) #mÃªme si normalement on l'a dÃ©jÃ  Ã©vitÃ© avec les continue plus haut
             vect = np.dot(vi, vj)
-            print(vect)
+            #print(vect)
             
         # stocker le produit scalaire linéaire s'il est trouvé
             if abs(vect) == 1 or nc == 2:
@@ -176,7 +176,7 @@ def open_mol_file():
             print("La molécule est linéaire ")
         else:
             print("La molécule n'est pas linéaire.")
-             if nc > 2 : 
+            if nc > 2 : 
                 # Molécule plane      
                 
                 # Calculer les vecteurs de liaison entre les atomes
