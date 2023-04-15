@@ -16,7 +16,7 @@ import numpy as np
 root = tk.Tk()
 root.title('Coordonnées de la molécule')
 root.resizable(False, False)
-root.geometry('400x80')
+root.geometry('500x80')
 
 
 def open_mol_file():
