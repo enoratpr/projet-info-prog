@@ -163,7 +163,7 @@ def open_mol_file():
             print(vect)
             
         # stocker le produit scalaire linéaire s'il est trouvé
-            if abs(vect) == 1:
+            if abs(vect) == 1 or nc == 2:
                 is_linear = True
                 break
         
