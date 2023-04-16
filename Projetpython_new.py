@@ -270,7 +270,7 @@ def open_mol_file():
 
 
 
-# open file button
+# crée un bouton pour avoir accès à nos fichiers
 open_button = ttk.Button(root, text='Open a File', command=open_mol_file)
 #position et taille du bouton open a file
 open_button.grid(column=0, row=1 , padx=10, pady=10)
