@@ -144,7 +144,7 @@ def open_mol_file():
                 ax.scatter(x1[i], y1[i], z1[i], color=colors[letters], marker='o', s=size[letters])
                 atom_color_list.append((letters, colors[letters]))
 
-        print(atom_color_list)
+        print(set(atom_color_list))
         
           
         fig.set_facecolor('grey')
