@@ -271,11 +271,7 @@ def open_mol_file():
 
 
 # open file button
-open_button = ttk.Button(
-    root,
-    text='Open a File',
-    command=open_mol_file
-)
+open_button = ttk.Button(root, text='Open a File', command=open_mol_file)
 #position et taille du bouton open a file
 open_button.grid(column=0, row=1 , padx=10, pady=10)
 
