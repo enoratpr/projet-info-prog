@@ -20,12 +20,9 @@ root.geometry('500x80')
 
 
 def open_mol_file():
-    # file type
-    filetypes = (
-        ('text files', '*.mol'),
-        ('All files', '*.*')
-    )
-    # show the open file dialog
+    # définir le type de fichiers
+    filetypes = (('text files', '*.mol'), ('All files', '*.*'))
+    # afficher la boîte de dialogue d'ouverture de fichier
     fichier = fd.askopenfile(filetypes=filetypes)
 
     
@@ -37,9 +34,6 @@ def open_mol_file():
         
         nc = int(data_ok[0]) # Nombre coordonées
         nl = int(data_ok[1]) # Nombre liaisons 
-    
-
-        #print(nc," ",nl,"") #verif
         
         nc_fin = nc + 4
         nl_fin = nl + nc + 4
@@ -54,7 +48,6 @@ def open_mol_file():
             coo_line.append(line_content_ok[1])
             coo_line.append(line_content_ok[2])
             coo.append(coo_line)
-       # print(coo) #verif
         
         
         #extraction des atomes
@@ -65,7 +58,6 @@ def open_mol_file():
             atom_line = []
             atom_line.append(line_content_ok[3])
             atom.append(atom_line[0])  
-       # print(atom)
 
 
         #extraction des liaisons
@@ -78,7 +70,6 @@ def open_mol_file():
             liaison_line.append(line_content_ok[1])
             liaison_line.append(line_content_ok[2])
             liaisons.append(liaison_line)
-      #  print(liaisons)
                     
         
         # Convertir les coordonnées en un tableau NumPy
@@ -221,7 +212,6 @@ def open_mol_file():
         color = 'purple'
         ax.scatter(x, y, z, s=100, c=color, marker='o')
         plt.show()
-      #  print(mean1, mean2, mean3)
 
         # Tracer les liaisons
         for liaison in liaisons:
@@ -256,8 +246,7 @@ def open_mol_file():
                     
                 ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]+0.08, \
                 atom2_coord[1]+0.08], [atom1_coord[2], atom2_coord[2]], '-', \
-                linewidth=3, color="red")
-                    
+                linewidth=3, color="red")                    
               
             
             else :
