@@ -144,7 +144,7 @@ def open_mol_file():
                 ax.scatter(x1[i], y1[i], z1[i], color=colors[letters], marker='o', s=size[letters])
                 atom_color_list.append((letters, colors[letters]))
 
-        print(set(atom_color_list))
+        print(set(atom_color_list)) #permet à ce que la liste soit non redondante
         
           
         fig.set_facecolor('grey')
@@ -208,6 +208,10 @@ def open_mol_file():
         
             
         #Centre de masse 
+        # [:, 0] première colonne du tableau numpy de la liste de coordonnées
+        # [:,0] correspond aux coordonnées en x
+        # [:,1] correspond aux y 
+        # [:,2] correspond aux z
         mean1 = np.mean(coordinates_array[:,0])
         mean2 = np.mean(coordinates_array[:,1])
         mean3 = np.mean(coordinates_array[:,2])
@@ -218,14 +222,6 @@ def open_mol_file():
         ax.scatter(x, y, z, s=100, c=color, marker='o')
         plt.show()
       #  print(mean1, mean2, mean3)
-
-
-
-
-# [:, 0] première colonne du tableau numpy de la liste de coordonnées
-# [:,0] correspond aux coordonnées en x
-# [:,1] correspond aux y 
-# [:,2] correspond aux z
 
         # Tracer les liaisons
         for liaison in liaisons:
