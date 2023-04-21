@@ -266,9 +266,9 @@ def open_mol_file():
                                 refl.append(False)
                     print(refl)
                     if False in refl:
-                        print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symÃ©trie de la molÃ©cule")
+                        print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
                     else:
-                        print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symÃ©trie de la molÃ©cule")
+                        print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
                         is_symmetric_array[i][j]=True
                         print(i,j)
                     
