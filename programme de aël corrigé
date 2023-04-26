@@ -86,7 +86,7 @@ def open_mol_file():
         translation = -center
         # translation des coordonnées
         translated_coordinates = coordinates_array + translation
-        print(translated_coordinates,coordinates_array)
+        #print(translated_coordinates,coordinates_array)
         # vérification si la molécule possède un centre d'inversion
         has_inversion_center = True
         for coord in coordinates_array:
@@ -119,22 +119,21 @@ def open_mol_file():
        
        #Couleur atome 
         letters = ['C', 'H', 'N', 'O', 'S', 'Cl', 'Mo']
-        x1 = translated_coordinates[:,0] 
-        print(x1)
-        print(translated_coordinates)
+        x1 = translated_coordinates[:,0]
         y1 = translated_coordinates[:,1] 
         z1 = translated_coordinates[:,2] 
+        #print(translated_coordinates)
         colors = {'O': 'red', 'H': 'white', 'N': 'blue', 'C': 'black', \
                   'S': 'yellow', 'Cl': 'green', 'Mo': 'gold'}
         size = {'O': 1000, 'H': 500, 'N': 1500, 'C': 2000, 'S' : 1000, 'Cl': 750, 'Mo': 2500}
         
         atom_color_list=[]
         
-        print(atom)
+        #print(atom)
         for i, letters in enumerate(atom):
                 ax.scatter(x1[i], y1[i], z1[i], color=colors[letters], marker='o', s=size[letters])
                 atom_color_list.append((letters, colors[letters]))
-        print(set(atom_color_list)) #"set" permet à ce que la liste soit non redondante
+        print(set(atom_color_list)) # "set" permet à ce que la liste soit non redondante
         
           
         fig.set_facecolor('grey')
@@ -155,7 +154,7 @@ def open_mol_file():
                     vect = np.dot(vi, vj)
                     #print(vect)
                     
-                # stocker le produit scalaire linÃ©aire s'il est trouvÃ©
+                # stocker le produit scalaire linéaire s'il est trouvé
                     if abs(vect) != 1:
                         is_linear = False
                         break
@@ -166,7 +165,7 @@ def open_mol_file():
         else:
             print("La molécule n'est pas linéaire.")
             if nc > 2 : 
-                # MolÃ©cule plane      
+                # Molécule plane      
                 
                 # Calculer les vecteurs de liaison entre les atomes
                 vectors_array = np.diff(translated_coordinates, axis=0)
@@ -242,7 +241,7 @@ def open_mol_file():
                 #print(i,j,dot_product)
 
                 if abs(dot_product)<1.01 and abs(dot_product)>0.99:
-                    #print("Atomes {i+1} et {j+1} sont alignÃ©s avec le centre de masse.")
+                    #print("Atomes {i+1} et {j+1} sont alignés avec le centre de masse.")
                     break  # Passer à l'atome suivant
                 else:
                     # Calcul du produit vectoriel et normalisation du vecteur résultant
@@ -283,7 +282,7 @@ def open_mol_file():
                                 break
                             else:
                                 refl.append(False)
-                    print(refl)
+                    #print(refl) # les false et true correspondant à chaque phrase 
                     if False in refl:
                         print("Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
                     else:
@@ -293,7 +292,7 @@ def open_mol_file():
                     
                 
         #print(is_symmetric)
-        print(is_symmetric_array)        
+        #print(is_symmetric_array)    # correspond à la matrice avec tous les false et true    
         #plt.show()
         
             
@@ -320,21 +319,21 @@ def open_mol_file():
             angle = 2*np.pi/order #calcul de l'angle de rotation en radian
             cos = np.cos(angle)
             sin = np.sin(angle)
-            print(order)
+            #print(order)
          
          #boucle sur chaque atome
          #len(centered_cordinates_array) correspond au nombre d'atomes dans la molécule chaque ligne renvoie les coordonnées d'un atome
             for i in range(len(centered_coordinates_array)):
-                print(i)
+                #print(i)
                 if not np.array_equal(centered_coordinates_array[i],center):
                     #print("ok")
                     x,y,z = centered_coordinates_array[i] #coordonnées d'un atome de la forme x, y, z
-                    print(centered_coordinates_array[i])
+                    #print(centered_coordinates_array[i])
                  
                     norm = (x**2 + y**2 + z**2)**0.5
                     #print(norm)
                     ux, uy, uz = x/norm, y/norm, z/norm #norme le vecteur de chaque atome et on a ux, uy, uz le vecteur unitaire
-                    print(ux, uy, uz)
+                    #print(ux, uy, uz)
                     #print(ux,uy,uz)
                     
                     # Calcul de la matrice de rotation R
@@ -411,7 +410,8 @@ def open_mol_file():
             else :
                 ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
                 atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
-                linewidth=3, color="red")              
+                linewidth=3, color="red")
+                    
                     
                     
          
