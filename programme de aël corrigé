@@ -384,13 +384,34 @@ def open_mol_file():
             bond_type = int(liaison[2]) #le 3ème élément de la liste liaison correspond au type de liaison
             
        
+            #calculer le vecteru interatomique de chaque liaison
+            interatomic_vect = atom2_coord - atom1_coord
+            unit_x = np.array([1, 0, 0])
+            unit_y = np.array([0, 1, 0])
+            unit_z = np.array([0, 0, 1])
+            #produit scalaire entre le vecteur unitaire et le vecteur unitaire de chaque axe
+            dot_x = np.dot(interatomic_vect, unit_x)
+            dot_y = np.dot(interatomic_vect, unit_y)
+            dot_z = np.dot(interatomic_vect, unit_z)
+            
+            #identifier le produit scalire le plus proche de 0 qui sera la direction la plus orthogonale à la liaison, on choisira cette direction comme décalage pour tracer les doubles et triples liaisons 
+            dot_min = np.min(np.abs([dot_x, dot_y, dot_z]))
+            if dot_min == dot_x:
+                direction = unit_x
+            elif dot_min == dot_y:
+                direction = unit_y
+            else:
+                direction = unit_z
+            
             if bond_type == 2 :
-                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]+0.05, \
-                atom2_coord[1]+0.05], [atom1_coord[2], atom2_coord[2]], '-', \
+                 
+                ax.plot([atom1_coord[0]+0.1*direction[0], atom2_coord[0]+0.1*direction[0]], [atom1_coord[1]+0.1*direction[1], \
+                atom2_coord[1]+0.1*direction[1]], [atom1_coord[2]+0.1*direction[2], atom2_coord[2]+0.1*direction[2]], '-', \
                 linewidth= 3, color="red")
                     
-                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]-0.05, \
-                atom2_coord[1]-0.05], [atom1_coord[2],atom2_coord[2]], '-', linewidth= 3, color="red")
+                ax.plot([atom1_coord[0]-0.1*direction[0], atom2_coord[0]-0.1*direction[0]], [atom1_coord[1]-0.1*direction[1], \
+                atom2_coord[1]-0.1*direction[1]], [atom1_coord[2]-0.1*direction[2], atom2_coord[2]-0.1*direction[2]], '-', \
+                linewidth= 3, color="red")
             
             
             elif bond_type == 3 :
@@ -398,26 +419,20 @@ def open_mol_file():
                 atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
                 linewidth=3, color="red")
                     
-                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]-0.08, \
-                atom2_coord[1]-0.08], [atom1_coord[2], atom2_coord[2]], '-', \
-                linewidth=3, color="red") 
+                ax.plot([atom1_coord[0]+0.1*direction[0], atom2_coord[0]+0.1*direction[0]], [atom1_coord[1]+0.1*direction[1], \
+                atom2_coord[1]+0.1*direction[1]], [atom1_coord[2]+0.1*direction[2], atom2_coord[2]+0.1*direction[2]], '-', \
+                linewidth= 3, color="red") 
 
-                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1]+0.08, \
-                atom2_coord[1]+0.08], [atom1_coord[2], atom2_coord[2]], '-', \
-                linewidth=3, color="red")
+                ax.plot([atom1_coord[0]-0.1*direction[0], atom2_coord[0]-0.1*direction[0]], [atom1_coord[1]-0.1*direction[1], \
+                atom2_coord[1]-0.1*direction[1]], [atom1_coord[2]-0.1*direction[2], atom2_coord[2]-0.1*direction[2]], '-', \
+                linewidth= 3, color="red")
+            
 
 
             else :
                 ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
                 atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
-                linewidth=3, color="red")
-                    
-                    
-                    
-         
-                 
-                #plt.show()
-                    
+                linewidth=3, color="red")           
         
                 
         
