@@ -260,7 +260,7 @@ def open_mol_file():
                             dot_prod_A3 = np.dot(coordinates_array[k], B)
                             #print(dot_prod_A3)
                             if dot_prod_A3 == 0:
-                                #print("L'atome {k+1} est dans le plan des atomes {i+1} et {j+1}")
+                                print(f"L'atome {k+1} est dans le plan des atomes {i+1} et {j+1}")
                                 continue
                             A3_reflected = coordinates_array[k] - 2 * dot_prod_A3 * B
                     
@@ -272,7 +272,7 @@ def open_mol_file():
                                     if np.allclose(coordinates_array[l], A3_reflected):
                                         # Les coordonnées de la réflexion correspondent à celles d'un autre atome
                                         is_reflected = True
-                                        #print("L'atome {l+1} correspond Ã  la réflexion de l'atome {k+1} par rapport au plan des atomes {i+1} et {j+1}")
+                                        print(f"L'atome {l+1} correspond Ã  la réflexion de l'atome {k+1} par rapport au plan des atomes {i+1} et {j+1}")
                                         break
                                 # Si les coordonnées de la réflexion correspondent à celles d'un autre atome pour tous les atomes n'appartenant pas au plan,
                                 # on a un plan de symétrie pour l'atome A1 et on stocke le vecteur normal et la constante d du plan
@@ -286,7 +286,7 @@ def open_mol_file():
                     if False in refl:
                         print("Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
                     else:
-                        print("Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
+                        print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
                         is_symmetric_array[i][j]=True
                         print(i,j)
                     
@@ -358,7 +358,7 @@ def open_mol_file():
                                 equal = True
                                 break
                         if not equal:
-                            print("l'axe passant par l'atome {i+1} et le centre de masse n'est pas un axe de rotation pour cette molécule")
+                            print(f"l'axe passant par l'atome {i+1} et le centre de masse n'est pas un axe de rotation pour cette molécule")
                             break
                     if equal:
                         #print(center,centered_coordinates_array[i])
