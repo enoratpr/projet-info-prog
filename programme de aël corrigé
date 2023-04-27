@@ -113,6 +113,7 @@ def open_mol_file():
         # Créer une figure 3D
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
+        fig.set_facecolor('grey')
         ax.set_xlim([-limit, limit])
         ax.set_ylim([-limit, limit])
         ax.set_zlim([-limit, limit])
@@ -133,11 +134,7 @@ def open_mol_file():
         for i, letters in enumerate(atom):
                 ax.scatter(x1[i], y1[i], z1[i], color=colors[letters], marker='o', s=size[letters])
                 atom_color_list.append((letters, colors[letters]))
-        print(set(atom_color_list)) # "set" permet à ce que la liste soit non redondante
-        
-          
-        fig.set_facecolor('grey')
-     
+        print(set(atom_color_list)) # "set" permet à ce que la liste soit non redondante     
         
         #linéarité de la molécule 
         # initialiser une variable pour stocker si la molécule est linéaire ou non
