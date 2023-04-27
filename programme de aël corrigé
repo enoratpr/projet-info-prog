@@ -191,6 +191,85 @@ def open_mol_file():
                     print("La molécule n'est pas plane.")
             else :
                 print("La molécule ne comporte que deux atomes, elle ne peut donc être plane")
+                
+        #Centre de masse 
+        # [:, 0] première colonne du tableau numpy de la liste de coordonnées
+        # [:,0] correspond aux coordonnées en x
+        # [:,1] correspond aux y 
+        # [:,2] correspond aux z
+        mean1 = np.mean(translated_coordinates[:,0]) 
+        mean2 = np.mean(translated_coordinates[:,1]) 
+        mean3 = np.mean(translated_coordinates[:,2]) 
+        x = mean1
+        y = mean2
+        z = mean3
+        color = 'purple'
+        ax.scatter(x, y, z, s=100, c=color, marker='o')
+        #plt.show()
+      #  print(mean1, mean2, mean3)
+      
+        # Tracer les liaisons
+        for liaison in liaisons:
+            # Récupérer les indices des deux atomes liés
+            atom1_connectivite = int(liaison[0]) - 1
+            atom2_connectivite = int(liaison[1]) - 1
+#on enlève le  chiffre correspondant aux types de liaisons 
+            # Récupérer les coordonnées des deux atomes reliés entre eux
+            atom1_coord = translated_coordinates[atom1_connectivite] 
+            atom2_coord = translated_coordinates[atom2_connectivite] 
+            #tracer des liaisons simples, doubles et triples
+            bond_type = int(liaison[2]) #le 3ème élément de la liste liaison correspond au type de liaison
+            
+       
+            #calculer le vecteur interatomique de chaque liaison
+            interatomic_vect = atom2_coord - atom1_coord
+            unit_x = np.array([1, 0, 0])
+            unit_y = np.array([0, 1, 0])
+            unit_z = np.array([0, 0, 1])
+            #produit scalaire entre le vecteur unitaire et le vecteur unitaire de chaque axe
+            dot_x = np.dot(interatomic_vect, unit_x)
+            dot_y = np.dot(interatomic_vect, unit_y)
+            dot_z = np.dot(interatomic_vect, unit_z)
+            
+            #identifier le produit scalire le plus proche de 0 qui sera la direction la plus orthogonale à la liaison, on choisira cette direction comme décalage pour tracer les doubles et triples liaisons 
+            dot_min = np.min(np.abs([dot_x, dot_y, dot_z]))
+            if dot_min == dot_x:
+                direction = unit_x
+            elif dot_min == dot_y:
+                direction = unit_y
+            else:
+                direction = unit_z
+            
+            if bond_type == 2 :
+                 
+                ax.plot([atom1_coord[0]+0.1*direction[0], atom2_coord[0]+0.1*direction[0]], [atom1_coord[1]+0.1*direction[1], \
+                atom2_coord[1]+0.1*direction[1]], [atom1_coord[2]+0.1*direction[2], atom2_coord[2]+0.1*direction[2]], '-', \
+                linewidth= 3, color="red")
+                    
+                ax.plot([atom1_coord[0]-0.1*direction[0], atom2_coord[0]-0.1*direction[0]], [atom1_coord[1]-0.1*direction[1], \
+                atom2_coord[1]-0.1*direction[1]], [atom1_coord[2]-0.1*direction[2], atom2_coord[2]-0.1*direction[2]], '-', \
+                linewidth= 3, color="red")
+            
+            
+            elif bond_type == 3 :
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
+                atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
+                linewidth=3, color="red")
+                    
+                ax.plot([atom1_coord[0]+0.1*direction[0], atom2_coord[0]+0.1*direction[0]], [atom1_coord[1]+0.1*direction[1], \
+                atom2_coord[1]+0.1*direction[1]], [atom1_coord[2]+0.1*direction[2], atom2_coord[2]+0.1*direction[2]], '-', \
+                linewidth= 3, color="red") 
+
+                ax.plot([atom1_coord[0]-0.1*direction[0], atom2_coord[0]-0.1*direction[0]], [atom1_coord[1]-0.1*direction[1], \
+                atom2_coord[1]-0.1*direction[1]], [atom1_coord[2]-0.1*direction[2], atom2_coord[2]-0.1*direction[2]], '-', \
+                linewidth= 3, color="red")
+            
+
+
+            else :
+                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
+                atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
+                linewidth=3, color="red")
         
         
         
@@ -260,7 +339,7 @@ def open_mol_file():
                             dot_prod_A3 = np.dot(coordinates_array[k], B)
                             #print(dot_prod_A3)
                             if dot_prod_A3 == 0:
-                                print(f"L'atome {k+1} est dans le plan des atomes {i+1} et {j+1}")
+                                #print(f"L'atome {k+1} est dans le plan des atomes {i+1} et {j+1}")
                                 continue
                             A3_reflected = coordinates_array[k] - 2 * dot_prod_A3 * B
                     
@@ -272,7 +351,7 @@ def open_mol_file():
                                     if np.allclose(coordinates_array[l], A3_reflected):
                                         # Les coordonnées de la réflexion correspondent à celles d'un autre atome
                                         is_reflected = True
-                                        print(f"L'atome {l+1} correspond Ã  la réflexion de l'atome {k+1} par rapport au plan des atomes {i+1} et {j+1}")
+                                        #print(f"L'atome {l+1} correspond Ã  la réflexion de l'atome {k+1} par rapport au plan des atomes {i+1} et {j+1}")
                                         break
                                 # Si les coordonnées de la réflexion correspondent à celles d'un autre atome pour tous les atomes n'appartenant pas au plan,
                                 # on a un plan de symétrie pour l'atome A1 et on stocke le vecteur normal et la constante d du plan
@@ -292,25 +371,9 @@ def open_mol_file():
                     
                 
         #print(is_symmetric)
-        #print(is_symmetric_array)    # correspond à la matrice avec tous les false et true    
+        print(is_symmetric_array)    # correspond à la matrice avec tous les false et true    
         #plt.show()
         
-            
-        #Centre de masse 
-        # [:, 0] première colonne du tableau numpy de la liste de coordonnées
-        # [:,0] correspond aux coordonnées en x
-        # [:,1] correspond aux y 
-        # [:,2] correspond aux z
-        mean1 = np.mean(translated_coordinates[:,0]) 
-        mean2 = np.mean(translated_coordinates[:,1]) 
-        mean3 = np.mean(translated_coordinates[:,2]) 
-        x = mean1
-        y = mean2
-        z = mean3
-        color = 'purple'
-        ax.scatter(x, y, z, s=100, c=color, marker='o')
-        #plt.show()
-      #  print(mean1, mean2, mean3)
 
         #faire tout le calcul sur les coordonnées centrées (atome - centre de masse)
         centered_coordinates_array = translated_coordinates
@@ -367,68 +430,7 @@ def open_mol_file():
                         ax.plot(axe[0],axe[1],axe[2], color='yellow', linewidth=8)
                         print(f"l'axe passant par l'atome {i+1} et le centre de masse est un axe de rotation pour cette molécule") 
 
-        # Tracer les liaisons
-        for liaison in liaisons:
-            # Récupérer les indices des deux atomes liés
-            atom1_connectivite = int(liaison[0]) - 1
-            atom2_connectivite = int(liaison[1]) - 1
-#on enlève le  chiffre correspondant aux types de liaisons 
-            # Récupérer les coordonnées des deux atomes reliés entre eux
-            atom1_coord = translated_coordinates[atom1_connectivite] 
-            atom2_coord = translated_coordinates[atom2_connectivite] 
-            #tracer des liaisons simples, doubles et triples
-            bond_type = int(liaison[2]) #le 3ème élément de la liste liaison correspond au type de liaison
-            
-       
-            #calculer le vecteur interatomique de chaque liaison
-            interatomic_vect = atom2_coord - atom1_coord
-            unit_x = np.array([1, 0, 0])
-            unit_y = np.array([0, 1, 0])
-            unit_z = np.array([0, 0, 1])
-            #produit scalaire entre le vecteur unitaire et le vecteur unitaire de chaque axe
-            dot_x = np.dot(interatomic_vect, unit_x)
-            dot_y = np.dot(interatomic_vect, unit_y)
-            dot_z = np.dot(interatomic_vect, unit_z)
-            
-            #identifier le produit scalire le plus proche de 0 qui sera la direction la plus orthogonale à la liaison, on choisira cette direction comme décalage pour tracer les doubles et triples liaisons 
-            dot_min = np.min(np.abs([dot_x, dot_y, dot_z]))
-            if dot_min == dot_x:
-                direction = unit_x
-            elif dot_min == dot_y:
-                direction = unit_y
-            else:
-                direction = unit_z
-            
-            if bond_type == 2 :
-                 
-                ax.plot([atom1_coord[0]+0.1*direction[0], atom2_coord[0]+0.1*direction[0]], [atom1_coord[1]+0.1*direction[1], \
-                atom2_coord[1]+0.1*direction[1]], [atom1_coord[2]+0.1*direction[2], atom2_coord[2]+0.1*direction[2]], '-', \
-                linewidth= 3, color="red")
-                    
-                ax.plot([atom1_coord[0]-0.1*direction[0], atom2_coord[0]-0.1*direction[0]], [atom1_coord[1]-0.1*direction[1], \
-                atom2_coord[1]-0.1*direction[1]], [atom1_coord[2]-0.1*direction[2], atom2_coord[2]-0.1*direction[2]], '-', \
-                linewidth= 3, color="red")
-            
-            
-            elif bond_type == 3 :
-                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
-                atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
-                linewidth=3, color="red")
-                    
-                ax.plot([atom1_coord[0]+0.1*direction[0], atom2_coord[0]+0.1*direction[0]], [atom1_coord[1]+0.1*direction[1], \
-                atom2_coord[1]+0.1*direction[1]], [atom1_coord[2]+0.1*direction[2], atom2_coord[2]+0.1*direction[2]], '-', \
-                linewidth= 3, color="red") 
-
-                ax.plot([atom1_coord[0]-0.1*direction[0], atom2_coord[0]-0.1*direction[0]], [atom1_coord[1]-0.1*direction[1], \
-                atom2_coord[1]-0.1*direction[1]], [atom1_coord[2]-0.1*direction[2], atom2_coord[2]-0.1*direction[2]], '-', \
-                linewidth= 3, color="red")
-            
-
-
-            else :
-                ax.plot([atom1_coord[0], atom2_coord[0]], [atom1_coord[1], \
-                atom2_coord[1]], [atom1_coord[2], atom2_coord[2]], '-', \
-                linewidth=3, color="red")           
+                   
         
                 
         
