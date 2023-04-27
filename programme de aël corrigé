@@ -365,11 +365,7 @@ def open_mol_file():
                         # Tracer l'axe de rotation correspondant si les matrices avant et après rotation sont proches
                         axe = [[2*centered_coordinates_array[i][j],-2*centered_coordinates_array[i][j]] for j in range(0,3)]
                         ax.plot(axe[0],axe[1],axe[2], color='yellow', linewidth=8)
-                        print("les coordonnées après rotation correspondent à celles avant rotation") 
-                    #if i==11: #uniquement pour debug, trace la molÃ©cule aprÃ¨s rotation
-                        #for i, letters in enumerate(atom):
-                            #ax.scatter(rotated_coordinates_array[:,0][i], rotated_coordinates_array[:,1][i], rotated_coordinates_array[:,2][i], color=colors[letters], marker='o', s=size[letters])
-                            #atom_color_list.append((letters, colors[letters]))
+                        print(f"l'axe passant par l'atome {i+1} et le centre de masse est un axe de rotation pour cette molécule") 
 
         # Tracer les liaisons
         for liaison in liaisons:
@@ -384,7 +380,7 @@ def open_mol_file():
             bond_type = int(liaison[2]) #le 3ème élément de la liste liaison correspond au type de liaison
             
        
-            #calculer le vecteru interatomique de chaque liaison
+            #calculer le vecteur interatomique de chaque liaison
             interatomic_vect = atom2_coord - atom1_coord
             unit_x = np.array([1, 0, 0])
             unit_y = np.array([0, 1, 0])
