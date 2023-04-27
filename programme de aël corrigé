@@ -363,7 +363,7 @@ def open_mol_file():
                                 refl.append(False)
                     #print(refl) # les false et true correspondant à chaque phrase 
                     if False in refl:
-                        print("Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
+                        print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
                     else:
                         print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
                         is_symmetric_array[i][j]=True
@@ -397,7 +397,6 @@ def open_mol_file():
                     #print(norm)
                     ux, uy, uz = x/norm, y/norm, z/norm #norme le vecteur de chaque atome et on a ux, uy, uz le vecteur unitaire
                     #print(ux, uy, uz)
-                    #print(ux,uy,uz)
                     
                     # Calcul de la matrice de rotation R
                     rotation_matrix = np.array([[(ux**2)*(1-cos)+cos, ux*uy*(1-cos)-uz*sin, ux*uz*(1-cos)+uy*sin],\
@@ -408,9 +407,6 @@ def open_mol_file():
                     # Application de la rotation aux coordonnées centrées
                     #np.dot fait le calcul matriciel
                     rotated_coordinates_array = np.dot(centered_coordinates_array, rotation_matrix)
-                    #new_coordinates_array = centered_coordinates_array.copy()
-                    #new_coordinates_array[i] = rotated_coordinates_array
-                    #print(centered_coordinates_array)
                     #print(rotated_coordinates_array)          
                     
                     #après rotation on doit vérifier qu'on a une correspondance 1 à 1 entre les 2 matrices (avant et après rotation) pour chaque atome peu importe l'ordre dans lequel on les retrouve
