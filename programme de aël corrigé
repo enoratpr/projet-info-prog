@@ -298,7 +298,7 @@ def open_mol_file():
                 else:
                     order = 1
 
-                print("L'ordre de l'axe C infini est {order}")
+                print(f"L'ordre de l'axe C infini est {order}")
             return is_symmetric_array
         for i in range(len(coordinates_array)):
             if np.array_equal(coordinates_array[i],np.zeros(3)):
@@ -358,7 +358,7 @@ def open_mol_file():
                                 refl.append(False)
                     #print(refl) # les false et true correspondant à chaque phrase 
                     if False in refl:
-                        print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
+                        #print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
                     else:
                         print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
                         is_symmetric_array[i][j]=True
@@ -412,7 +412,7 @@ def open_mol_file():
                                 equal = True
                                 break
                         if not equal:
-                            print(f"l'axe passant par l'atome {i+1} et le centre de masse n'est pas un axe de rotation pour cette molécule")
+                           # print(f"l'axe passant par l'atome {i+1} et le centre de masse n'est pas un axe de rotation pour cette molécule")
                             break
                     if equal:
                         #print(center,centered_coordinates_array[i])
