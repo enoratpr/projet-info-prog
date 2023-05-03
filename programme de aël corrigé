@@ -136,25 +136,23 @@ def open_mol_file():
                 atom_color_list.append((letters, colors[letters]))
         print(set(atom_color_list)) # "set" permet à ce que la liste soit non redondante     
         
-        #linéarité de la molécule 
+         #linéarité de la molécule 
         # initialiser une variable pour stocker si la molécule est linéaire ou non
-        is_linear = True
+        is_linear = False
         
-        if nc == 2:
-            is_linear = True    
-        else:
-            for i in range(len(translated_coordinates)): 
-                for j in range(i+1, len(translated_coordinates)): 
-            # calculer le produit scalaire entre les vecteurs i et j
-                    vi = translated_coordinates[i] / (np.linalg.norm(translated_coordinates[i]) + 1e-16) #le 1e-16 sert juste à éviter le cas où la norme serait nulle
-                    vj = translated_coordinates[j] / (np.linalg.norm(translated_coordinates[j]) + 1e-16) #même si normalement on l'a déjà évité avec les continue plus haut
-                    vect = np.dot(vi, vj)
-                    #print(vect)
-                    
-                # stocker le produit scalaire linéaire s'il est trouvé
-                    if abs(vect) != 1:
-                        is_linear = False
-                        break
+        for i in range(len(coordinates_array)):
+           for j in range(i+1, len(coordinates_array)):
+        # calculer le produit scalaire entre les vecteurs i et j
+            vi = coordinates_array[i] / (np.linalg.norm(coordinates_array[i]) + 1e-16) 
+            #le 1e-16 sert juste a éviter le cas ou la norme serait nulle
+            vj = coordinates_array[j] / (np.linalg.norm(coordinates_array[j]) + 1e-16) 
+            vect = np.dot(vi, vj)
+           # print(vect)
+          
+        # stocker le produit scalaire linéaire s'il est trouvé
+            if abs(vect) == 1 or nc==2:
+                is_linear = True
+                break
          
             # imprimer le résultat
         if is_linear:
