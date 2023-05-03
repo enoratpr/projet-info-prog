@@ -363,11 +363,11 @@ def open_mol_file():
                     else:
                         print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
                         is_symmetric_array[i][j]=True
-                        print(i,j)
+                        #print(i,j)
                     
                 
         #print(is_symmetric)
-        print(is_symmetric_array)    # correspond à la matrice avec tous les false et true    
+       # print(is_symmetric_array)    # correspond à la matrice avec tous les false et true    
         #plt.show()
         
 
@@ -419,7 +419,7 @@ def open_mol_file():
                         #print(center,centered_coordinates_array[i])
                         # Tracer l'axe de rotation correspondant si les matrices avant et après rotation sont proches
                         axe = [[2*centered_coordinates_array[i][j],-2*centered_coordinates_array[i][j]] for j in range(0,3)]
-                        ax.plot(axe[0],axe[1],axe[2], color='yellow', linewidth=8)
+                        ax.plot(axe[0],axe[1],axe[2], color='yellow', alpha=0.25, linewidth=8)
                         print(f"l'axe passant par l'atome {i+1} et le centre de masse est un axe de rotation pour cette molécule") 
 
                    
