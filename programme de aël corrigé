@@ -361,6 +361,7 @@ def open_mol_file():
                                 refl.append(False)
                     #print(refl) # les false et true correspondant à chaque phrase 
                     if False in refl:
+                        continue
                         #print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
                     else:
                         print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
