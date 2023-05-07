@@ -285,6 +285,8 @@ def open_mol_file():
 
         if is_linear :
            print("La molécule possède un axe C infini")
+           axe = [[2*transalted_coordinates[0][j],-2*transalted_coordinates[1][j]] for j in range(0,3)]
+           ax.plot(axe[0],axe[1],axe[2], color='yellow', alpha = 0.25, linewidth=8)
             
         elif (x1 == x2 == x3) or (y1 == y2 == y3) or (z1 == z2 == z3):
                 # Déterminer l'ordre de l'axe C infini
@@ -420,7 +422,7 @@ def open_mol_file():
                         #print(center,centered_coordinates_array[i])
                         # Tracer l'axe de rotation correspondant si les matrices avant et après rotation sont proches
                         axe = [[2*centered_coordinates_array[i][j],-2*centered_coordinates_array[i][j]] for j in range(0,3)]
-                        ax.plot(axe[0],axe[1],axe[2], color='yellow', linewidth=8)
+                        ax.plot(axe[0],axe[1],axe[2], color='yellow', alpha = 0.25, linewidth=8)
                         print(f"l'axe passant par l'atome {i+1} et le centre de masse est un axe de rotation pour cette molécule") 
 
                    
