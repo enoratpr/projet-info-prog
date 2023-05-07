@@ -283,26 +283,24 @@ def open_mol_file():
             x2, y2, z2 = coordinates_array[1]
             x3, y3, z3 = coordinates_array[2]
 
-            if is_linear :
-               print("La molécule possède un axe C infini")
-                 axe = [[2*translated_coordinates[0][j],-2*translated_coordinates[1][j]] for j in range(0,3)]
-                 ax.plot(axe[0],axe[1],axe[2], color='yellow', alpha=0.25, linewidth=8)
+        if is_linear :
+           print("La molécule possède un axe C infini")
+            
+        elif (x1 == x2 == x3) or (y1 == y2 == y3) or (z1 == z2 == z3):
+                # Déterminer l'ordre de l'axe C infini
+                if x1 == x2 == x3:
+                    order = 3
+                elif y1 == y2 == y3:
+                    order = 3
+                elif z1 == z2 == z3:
+                    order = 3
+                elif (x1 == x2 and y1 == y2) or (x1 == x3 and y1 == y3) or (x2 == x3 and y2 == y3):
+                    order = 2
+                else:
+                    order = 1
 
-            elif (x1 == x2 == x3) or (y1 == y2 == y3) or (z1 == z2 == z3):
-                    # Déterminer l'ordre de l'axe C infini
-                    if x1 == x2 == x3:
-                        order = 3
-                    elif y1 == y2 == y3:
-                        order = 3
-                    elif z1 == z2 == z3:
-                        order = 3
-                    elif (x1 == x2 and y1 == y2) or (x1 == x3 and y1 == y3) or (x2 == x3 and y2 == y3):
-                        order = 2
-                    else:
-                        order = 1
-
-                    print(f"L'ordre de l'axe est {order}")
-            return is_symmetric_array
+                print(f"L'ordre de l'axe est {order}")
+        return is_symmetric_array
         for i in range(len(coordinates_array)):
             if np.array_equal(coordinates_array[i],np.zeros(3)):
                 continue #pour passer cette itération
@@ -361,16 +359,16 @@ def open_mol_file():
                                 refl.append(False)
                     #print(refl) # les false et true correspondant à chaque phrase 
                     if False in refl:
-                        continue
                         #print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
+                        continue
                     else:
                         print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
                         is_symmetric_array[i][j]=True
-                        #print(i,j)
+                        print(i,j)
                     
                 
         #print(is_symmetric)
-       # print(is_symmetric_array)    # correspond à la matrice avec tous les false et true    
+        print(is_symmetric_array)    # correspond à la matrice avec tous les false et true    
         #plt.show()
         
 
@@ -422,7 +420,7 @@ def open_mol_file():
                         #print(center,centered_coordinates_array[i])
                         # Tracer l'axe de rotation correspondant si les matrices avant et après rotation sont proches
                         axe = [[2*centered_coordinates_array[i][j],-2*centered_coordinates_array[i][j]] for j in range(0,3)]
-                        ax.plot(axe[0],axe[1],axe[2], color='yellow', alpha=0.25, linewidth=8)
+                        ax.plot(axe[0],axe[1],axe[2], color='yellow', linewidth=8)
                         print(f"l'axe passant par l'atome {i+1} et le centre de masse est un axe de rotation pour cette molécule") 
 
                    
