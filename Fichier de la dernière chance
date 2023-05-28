@@ -96,9 +96,9 @@ def open_mol_file():
         #print(translated_coordinates,coordinates_array)
         # vérification si la molécule possède un centre d'inversion
         has_inversion_center = True
-        for coord in coordinates_array:
+        for coord in translated_coordinates:
             inv_coord = -coord
-            if not np.any((coordinates_array == inv_coord).all(axis=1)):
+            if not np.any((translated_coordinates == inv_coord).all(axis=1)):
                 has_inversion_center = False
                 break
         if has_inversion_center:
