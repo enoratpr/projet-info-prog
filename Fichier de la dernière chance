@@ -41,9 +41,6 @@ def open_mol_file():
         nc = int(data_ok[0]) # Nombre coordonées
         nl = int(data_ok[1]) # Nombre liaisons 
 
-
-        #print(nc," ",nl,"") #verif
-
         nc_fin = nc + 4
         nl_fin = nl + nc + 4
         #extraction des coordonnées
@@ -56,7 +53,6 @@ def open_mol_file():
             coo_line.append(line_content_ok[1])
             coo_line.append(line_content_ok[2])
             coo.append(coo_line)
-       # print(coo) #verif
 
 
         #extraction des atomes
@@ -67,8 +63,7 @@ def open_mol_file():
             atom_line = []
             atom_line.append(line_content_ok[3])
             atom.append(atom_line[0])  
-       # print(atom)
-
+      
 
         #extraction des liaisons
         liaisons = []
@@ -80,8 +75,6 @@ def open_mol_file():
             liaison_line.append(line_content_ok[1])
             liaison_line.append(line_content_ok[2])
             liaisons.append(liaison_line)
-      #  print(liaisons)
-
 
         # Convertir les coordonnées en un tableau NumPy
         coordinates_array = np.array(coo, dtype=float)
@@ -130,14 +123,12 @@ def open_mol_file():
         x1 = translated_coordinates[:,0]
         y1 = translated_coordinates[:,1] 
         z1 = translated_coordinates[:,2] 
-        #print(translated_coordinates)
         colors = {'O': 'red', 'H': 'white', 'N': 'blue', 'C': 'black', \
                   'S': 'yellow', 'Cl': 'green', 'Mo': 'gold'}
         size = {'O': 1000, 'H': 500, 'N': 1500, 'C': 2000, 'S' : 1000, 'Cl': 750, 'Mo': 2500}
         
         atom_color_list=[]
         
-        #print(atom)
         for i, letters in enumerate(atom):
                 ax.scatter(x1[i], y1[i], z1[i], color=colors[letters], marker='o', s=size[letters])
                 atom_color_list.append((letters, colors[letters]))
@@ -154,7 +145,6 @@ def open_mol_file():
             #le 1e-16 sert juste a éviter le cas ou la norme serait nulle
             vj = coordinates_array[j] / (np.linalg.norm(coordinates_array[j]) + 1e-16) 
             vect = np.dot(vi, vj)
-           # print(vect)
           
         # stocker le produit scalaire linéaire s'il est trouvé
             if abs(vect) == 1 or nc==2:
@@ -202,13 +192,9 @@ def open_mol_file():
         mean1 = np.mean(translated_coordinates[:,0]) 
         mean2 = np.mean(translated_coordinates[:,1]) 
         mean3 = np.mean(translated_coordinates[:,2]) 
-        x = mean1
-        y = mean2
-        z = mean3
         color = 'purple'
-        ax.scatter(x, y, z, s=100, c=color, marker='o')
+        ax.scatter(mean1, mean2, mean3, s=100, c=color, marker='o')
         #plt.show()
-      #  print(mean1, mean2, mean3)
       
         # Tracer les liaisons
         for liaison in liaisons:
@@ -279,8 +265,7 @@ def open_mol_file():
         is_symmetric = [False] * len(coordinates_array)
         
         #Array de taille n x n rempli de False pour stocker quels plans sont des plans de symétrie avec des paires de points
-        is_symmetric_array = np.array([[False for i in range(len(coordinates_array))] for i in range(len(coordinates_array))])    
-        #print(is_symmetric_array)
+        is_symmetric_array = np.array([[False for i in range(len(coordinates_array))] for i in range(len(coordinates_array))])  
         
         # Si la molécule a seulement trois atomes, qu'elle est linéaire et qu'elle possède un centre d'inversion, on sort de la boucle et on retourne que la molécule possède des plans de symétrie
         if len(coordinates_array) == 3 and is_linear and has_inversion_center:
@@ -322,7 +307,6 @@ def open_mol_file():
                 vi = coordinates_array[i] / (np.linalg.norm(coordinates_array[i]) + 1e-16) #le 1e-16 sert juste à éviter le cas où la norme serait nulle
                 vj = coordinates_array[j] / (np.linalg.norm(coordinates_array[j]) + 1e-16) #même si normalement on l'a déjà évité avec les continue plus haut
                 dot_product = np.dot(vi, vj)
-                #print(i,j,dot_product)
 
                 if abs(dot_product)<1.01 and abs(dot_product)>0.99:
                     #print("Atomes {i+1} et {j+1} sont alignés avec le centre de masse.")
