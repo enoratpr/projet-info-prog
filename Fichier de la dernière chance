@@ -36,7 +36,7 @@ def open_mol_file():
         content = f.readlines()
         line4 = content[3]
         data = line4.split(" ")
-        data_ok = list(filter(None,data)) #j'utilise la fonction filter ici aussi pour que ça fonctionne à tous les coups
+        data_ok = list(filter(None,data)) #filter pour enlever les espaces
 
         nc = int(data_ok[0]) # Nombre coordonées
         nl = int(data_ok[1]) # Nombre liaisons 
@@ -165,9 +165,7 @@ def open_mol_file():
                 # Calculer le vecteur normal de la molécule
                 normal_vector = np.cross(vectors_array[0], vectors_array[1])
         
-               
-                # Vérifier que tous les vecteurs de liaison sont parallèles au vecteur normal
-                
+                # Vérifier que tous les vecteurs de liaison sont parallèles au vecteur normal 
                 is_planar = True
                 tolerance = 1e-10
                 for i in range(len(vectors_array)):
@@ -309,14 +307,12 @@ def open_mol_file():
                 dot_product = np.dot(vi, vj)
 
                 if abs(dot_product)<1.01 and abs(dot_product)>0.99:
-                    #print("Atomes {i+1} et {j+1} sont alignés avec le centre de masse.")
                     break  # Passer à l'atome suivant
                 else:
                     # Calcul du produit vectoriel et normalisation du vecteur résultant
                     cross_prod = np.cross(coordinates_array[i], coordinates_array[j])
                     norm_cross_prod = cross_prod / np.linalg.norm(cross_prod)
                     B = norm_cross_prod #.tolist()
-                    #print(B)
                     
                     # Calcul de la distance d entre le plan passant par le centre de masse et les deux atomes
                     d = np.dot(B,coordinates_array[i])
@@ -326,9 +322,7 @@ def open_mol_file():
                         if k != i and k != j:
                             # Calcul du produit scalaire entre le vecteur position de A3 et le vecteur normal B
                             dot_prod_A3 = np.dot(coordinates_array[k], B)
-                            #print(dot_prod_A3)
                             if dot_prod_A3 == 0:
-                                #print(f"L'atome {k+1} est dans le plan des atomes {i+1} et {j+1}")
                                 continue
                             A3_reflected = coordinates_array[k] - 2 * dot_prod_A3 * B
                     
@@ -340,7 +334,6 @@ def open_mol_file():
                                     if np.allclose(coordinates_array[l], A3_reflected):
                                         # Les coordonnées de la réflexion correspondent à celles d'un autre atome
                                         is_reflected = True
-                                        #print(f"L'atome {l+1} correspond Ã  la réflexion de l'atome {k+1} par rapport au plan des atomes {i+1} et {j+1}")
                                         break
                                 # Si les coordonnées de la réflexion correspondent à celles d'un autre atome pour tous les atomes n'appartenant pas au plan,
                                 # on a un plan de symétrie pour l'atome A1 et on stocke le vecteur normal et la constante d du plan
@@ -353,16 +346,9 @@ def open_mol_file():
                     #print(refl) # les false et true correspondant à chaque phrase 
                     if False in refl:
                         continue
-                        #print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} n'est pas un plan de symétrie de la molécule")
                     else:
                         print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
-                        is_symmetric_array[i][j]=True
-                        #print(i,j)
-                    
-                
-        #print(is_symmetric)
-       # print(is_symmetric_array)    # correspond à la matrice avec tous les false et true    
-        #plt.show()
+                        is_symmetric_array[i][j]=True # correspond à la matrice avec tous les false et true 
         
 
         #faire tout le calcul sur les coordonnées centrées (atome - centre de masse)
@@ -372,32 +358,23 @@ def open_mol_file():
             angle = 2*np.pi/order #calcul de l'angle de rotation en radian
             cos = np.cos(angle)
             sin = np.sin(angle)
-            #print(order)
          
          #boucle sur chaque atome
          #len(centered_cordinates_array) correspond au nombre d'atomes dans la molécule chaque ligne renvoie les coordonnées d'un atome
             for i in range(len(centered_coordinates_array)):
-                #print(i)
                 if not np.array_equal(centered_coordinates_array[i],center):
-                    #print("ok")
                     x,y,z = centered_coordinates_array[i] #coordonnées d'un atome de la forme x, y, z
-                    #print(centered_coordinates_array[i])
-                 
                     norm = (x**2 + y**2 + z**2)**0.5
-                    #print(norm)
                     ux, uy, uz = x/norm, y/norm, z/norm #norme le vecteur de chaque atome et on a ux, uy, uz le vecteur unitaire
-                    #print(ux, uy, uz)
                     
                     # Calcul de la matrice de rotation R
                     rotation_matrix = np.array([[(ux**2)*(1-cos)+cos, ux*uy*(1-cos)-uz*sin, ux*uz*(1-cos)+uy*sin],\
                                              [ux*uy*(1-cos)+uz*sin, (uy**2)*(1-cos)+cos, uy*uz*(1-cos)-ux*sin],\
                                              [ux*uz*(1-cos)-uy*sin, uy*uz*(1-cos)+ux*sin, (uz**2)*(1-cos)+cos]])
-                    #print(rotation_matrix)
-                            
+                 
                     # Application de la rotation aux coordonnées centrées
                     #np.dot fait le calcul matriciel
-                    rotated_coordinates_array = np.dot(centered_coordinates_array, rotation_matrix)
-                    #print(rotated_coordinates_array)          
+                    rotated_coordinates_array = np.dot(centered_coordinates_array, rotation_matrix)         
                     
                     #après rotation on doit vérifier qu'on a une correspondance 1 à 1 entre les 2 matrices (avant et après rotation) pour chaque atome peu importe l'ordre dans lequel on les retrouve
                     for j in rotated_coordinates_array:
@@ -407,10 +384,8 @@ def open_mol_file():
                                 equal = True
                                 break
                         if not equal:
-                           # print(f"l'axe passant par l'atome {i+1} et le centre de masse n'est pas un axe de rotation pour cette molécule")
                             break
                     if equal:
-                        #print(center,centered_coordinates_array[i])
                         # Tracer l'axe de rotation correspondant si les matrices avant et après rotation sont proches
                         axe = [[2*centered_coordinates_array[i][j],-2*centered_coordinates_array[i][j]] for j in range(0,3)]
                         ax.plot(axe[0],axe[1],axe[2], color='yellow', alpha=0.5, linewidth=2)
