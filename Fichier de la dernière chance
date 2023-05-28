@@ -86,7 +86,6 @@ def open_mol_file():
         translation = -center
         # translation des coordonnées
         translated_coordinates = coordinates_array + translation
-        #print(translated_coordinates,coordinates_array)
         # vérification si la molécule possède un centre d'inversion
         has_inversion_center = True
         for coord in translated_coordinates:
@@ -192,7 +191,6 @@ def open_mol_file():
         mean3 = np.mean(translated_coordinates[:,2]) 
         color = 'purple'
         ax.scatter(mean1, mean2, mean3, s=100, c=color, marker='o')
-        #plt.show()
       
         # Tracer les liaisons
         for liaison in liaisons:
@@ -217,7 +215,8 @@ def open_mol_file():
             dot_y = np.dot(interatomic_vect, unit_y)
             dot_z = np.dot(interatomic_vect, unit_z)
             
-            #identifier le produit scalire le plus proche de 0 qui sera la direction la plus orthogonale à la liaison, on choisira cette direction comme décalage pour tracer les doubles et triples liaisons 
+            #identifier le produit scalire le plus proche de 0 qui sera la direction la plus orthogonale à la liaison, /
+            #on choisira cette direction comme décalage pour tracer les doubles et triples liaisons 
             dot_min = np.min(np.abs([dot_x, dot_y, dot_z]))
             if dot_min == dot_x:
                 direction = unit_x
@@ -265,7 +264,8 @@ def open_mol_file():
         #Array de taille n x n rempli de False pour stocker quels plans sont des plans de symétrie avec des paires de points
         is_symmetric_array = np.array([[False for i in range(len(coordinates_array))] for i in range(len(coordinates_array))])  
         
-        # Si la molécule a seulement trois atomes, qu'elle est linéaire et qu'elle possède un centre d'inversion, on sort de la boucle et on retourne que la molécule possède des plans de symétrie
+        # Si la molécule a seulement trois atomes, qu'elle est linéaire et qu'elle possède un centre d'inversion,/
+        #on sort de la boucle et on retourne que la molécule possède des plans de symétrie
         if len(coordinates_array) == 3 and is_linear and has_inversion_center:
             print("La molécule possède des plans de symétrie")
             # Vérifier si la molécule a un axe C infini
@@ -338,7 +338,7 @@ def open_mol_file():
                                 # Si les coordonnées de la réflexion correspondent à celles d'un autre atome pour tous les atomes n'appartenant pas au plan,
                                 # on a un plan de symétrie pour l'atome A1 et on stocke le vecteur normal et la constante d du plan
                             if is_reflected:
-                                is_symmetric[i] = True #pourtant is_reflected s'initialise Ã  False, du coup là on teste s'il est resté Ã  False
+                                is_symmetric[i] = True #pourtant is_reflected s'initialise à False, du coup là on teste s'il est resté Ã  False
                                 refl.append(True)
                                 break
                             else:
@@ -391,10 +391,6 @@ def open_mol_file():
                         ax.plot(axe[0],axe[1],axe[2], color='yellow', alpha=0.5, linewidth=2)
                         print(f"l'axe passant par l'atome {i+1} et le centre de masse est un axe de rotation pour cette molécule") 
 
-                   
-        
-                
-        
         plt.show()
         
 # crée un bouton pour avoir accès à nos fichiers
