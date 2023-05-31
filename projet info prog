@@ -20,30 +20,30 @@ root.resizable(False, False)
 root.geometry('500x80')
 
 def open_mol_file():
-    # file type
+    # File type
     filetypes = (
         ('text files', '*.mol'),
         ('All files', '*.*')
     )
-    # show the open file dialog
-    # définir le type de fichiers
+    # Show the open file dialog
+    # Définir le type de fichiers
     filetypes = (('text files', '*.mol'), ('All files', '*.*'))
-    # afficher la boîte de dialogue d'ouverture de fichier
+    # Afficher la boîte de dialogue d'ouverture de fichier
     fichier = fd.askopenfile(filetypes=filetypes)
 
 
     with open(fichier.name, 'r') as f:        
         content = f.readlines()
-        line4 = content[3]
+        line4 = content[3] # sur le fichier 
         data = line4.split(" ")
-        data_ok = list(filter(None,data)) #filter pour enlever les espaces
-
-        nc = int(data_ok[0]) # Nombre coordonées
-        nl = int(data_ok[1]) # Nombre liaisons 
+        data_ok = list(filter(None,data)) # filter permet de supprimer les caractères qui nous intéresse pas, les espaces par exemple
+        nc = int(data_ok[0]) # Nombre de coordonées
+        nl = int(data_ok[1]) # Nombre de liaisons 
 
         nc_fin = nc + 4
         nl_fin = nl + nc + 4
-        #extraction des coordonnées
+        
+        # Extraction des coordonnées
         coo = []
         for line in range(4,nc_fin):
             line_content = content[line].split(" ")
@@ -55,7 +55,7 @@ def open_mol_file():
             coo.append(coo_line)
 
 
-        #extraction des atomes
+        # Extraction des atomes
         atom = []
         for line in range(4,nc_fin):
             line_content = content[line].split(" ")
@@ -65,7 +65,7 @@ def open_mol_file():
             atom.append(atom_line[0])  
       
 
-        #extraction des liaisons
+        # Extraction des liaisons
         liaisons = []
         for line in range(nc_fin,nl_fin):
             line_content = content[line].split(" ")
@@ -80,13 +80,13 @@ def open_mol_file():
         coordinates_array = np.array(coo, dtype=float)
         
         
-  # Calculer le centre des atomes
+        # Calculer le centre de masse des atomes
         center = np.mean(coordinates_array, axis=0)
-        # calcul de la translation nécessaire pour ramener le centre de masse A(0, 0, 0)
+        # Calcul de la translation nécessaire pour ramener le centre de masse A(0, 0, 0)
         translation = -center
-        # translation des coordonnées
+        # Translation des coordonnées
         translated_coordinates = coordinates_array + translation
-        # vérification si la molécule possède un centre d'inversion
+        # Vérification si la molécule possède un centre d'inversion
         has_inversion_center = True
         for coord in translated_coordinates:
             inv_coord = -coord
@@ -99,8 +99,7 @@ def open_mol_file():
             print("La molécule ne possède pas de centre d'inversion.")
             
             
-        #une boîte cubique dans laquelle la molécule se trouvera forcément en entier,
-        #sans avoir de problème de liaison éclatée    
+        # Définir l'échelle (x, y, z) dans laquelle la molécule se trouvera en entière, sans avoir de problème de liaison éclatée    
         x_min, y_min, z_min = np.min(translated_coordinates, axis=0) 
         x_max, y_max, z_max = np.max(translated_coordinates, axis=0) 
         
@@ -117,7 +116,7 @@ def open_mol_file():
         ax.set_ylim([-limit, limit])
         ax.set_zlim([-limit, limit])
        
-       #Couleur atome 
+        # Couleur et taille des atomes 
         letters = ['C', 'H', 'N', 'O', 'S', 'Cl', 'Mo']
         x1 = translated_coordinates[:,0]
         y1 = translated_coordinates[:,1] 
@@ -133,24 +132,24 @@ def open_mol_file():
                 atom_color_list.append((letters, colors[letters]))
         print(set(atom_color_list)) # "set" permet à ce que la liste soit non redondante     
         
-         #linéarité de la molécule 
-        # initialiser une variable pour stocker si la molécule est linéaire ou non
+        # Linéarité de la molécule 
+        # Initialiser une variable pour stocker si la molécule est linéaire ou non
         is_linear = False
         
         for i in range(len(coordinates_array)):
            for j in range(i+1, len(coordinates_array)):
-        # calculer le produit scalaire entre les vecteurs i et j
+            # Calculer le produit scalaire entre les vecteurs i et j
             vi = coordinates_array[i] / (np.linalg.norm(coordinates_array[i]) + 1e-16) 
-            #le 1e-16 sert juste a éviter le cas ou la norme serait nulle
+            # le 1e-16 sert juste a éviter le cas ou la norme serait nulle
             vj = coordinates_array[j] / (np.linalg.norm(coordinates_array[j]) + 1e-16) 
             vect = np.dot(vi, vj)
           
-        # stocker le produit scalaire linéaire s'il est trouvé
+            # Stocker le produit scalaire linéaire s'il est trouvé
             if abs(vect) == 1 or nc==2:
                 is_linear = True
                 break
          
-            # imprimer le résultat
+        # Afficher le résultat
         if is_linear:
             print("La molécule est linéaire ")
         else:
@@ -173,7 +172,7 @@ def open_mol_file():
                         is_planar = False
                         break
                 
-            # Afficher le résultat
+                # Afficher le résultat
                 if is_planar:
                     print("La molécule est plane.") 
                 else:
@@ -197,7 +196,7 @@ def open_mol_file():
             # Récupérer les indices des deux atomes liés
             atom1_connectivite = int(liaison[0]) - 1
             atom2_connectivite = int(liaison[1]) - 1
-#on enlève le  chiffre correspondant aux types de liaisons 
+            # On enlève le  chiffre correspondant aux types de liaisons 
             # Récupérer les coordonnées des deux atomes reliés entre eux
             atom1_coord = translated_coordinates[atom1_connectivite] 
             atom2_coord = translated_coordinates[atom2_connectivite] 
@@ -205,18 +204,18 @@ def open_mol_file():
             bond_type = int(liaison[2]) #le 3ème élément de la liste liaison correspond au type de liaison
             
        
-            #calculer le vecteur interatomique de chaque liaison
+            # Calculer le vecteur interatomique de chaque liaison
             interatomic_vect = atom2_coord - atom1_coord
             unit_x = np.array([1, 0, 0])
             unit_y = np.array([0, 1, 0])
             unit_z = np.array([0, 0, 1])
-            #produit scalaire entre le vecteur unitaire et le vecteur unitaire de chaque axe
+            # Produit scalaire entre le vecteur unitaire et le vecteur unitaire de chaque axe
             dot_x = np.dot(interatomic_vect, unit_x)
             dot_y = np.dot(interatomic_vect, unit_y)
             dot_z = np.dot(interatomic_vect, unit_z)
             
-            #identifier le produit scalire le plus proche de 0 qui sera la direction la plus orthogonale à la liaison, /
-            #on choisira cette direction comme décalage pour tracer les doubles et triples liaisons 
+            # Identifier le produit scalire le plus proche de 0 qui sera la direction la plus orthogonale à la liaison, /
+            # On choisira cette direction comme décalage pour tracer les doubles et triples liaisons 
             dot_min = np.min(np.abs([dot_x, dot_y, dot_z]))
             if dot_min == dot_x:
                 direction = unit_x
@@ -261,11 +260,11 @@ def open_mol_file():
         # Booléen indiquant s'il y a un plan de symétrie pour chaque atome
         is_symmetric = [False] * len(coordinates_array)
         
-        #Array de taille n x n rempli de False pour stocker quels plans sont des plans de symétrie avec des paires de points
+        # Array de taille n x n rempli de False pour stocker quels plans sont des plans de symétrie avec des paires de points
         is_symmetric_array = np.array([[False for i in range(len(coordinates_array))] for i in range(len(coordinates_array))])  
         
         # Si la molécule a seulement trois atomes, qu'elle est linéaire et qu'elle possède un centre d'inversion,/
-        #on sort de la boucle et on retourne que la molécule possède des plans de symétrie
+        # On sort de la boucle et on retourne que la molécule possède des plans de symétrie
         if len(coordinates_array) == 3 and is_linear and has_inversion_center:
             print("La molécule possède des plans de symétrie")
             # Vérifier si la molécule a un axe C infini
@@ -300,8 +299,8 @@ def open_mol_file():
                 if np.array_equal(coordinates_array[j],np.zeros(3)):
                     continue #pour passer cette itération
         
-                # calculer le vecteur position entre les atomes i et j
-                # calculer le produit scalaire
+                # Calculer le vecteur position entre les atomes i et j
+                # Calculer le produit scalaire
                 vi = coordinates_array[i] / (np.linalg.norm(coordinates_array[i]) + 1e-16) #le 1e-16 sert juste à éviter le cas où la norme serait nulle
                 vj = coordinates_array[j] / (np.linalg.norm(coordinates_array[j]) + 1e-16) #même si normalement on l'a déjà évité avec les continue plus haut
                 dot_product = np.dot(vi, vj)
@@ -336,31 +335,30 @@ def open_mol_file():
                                         is_reflected = True
                                         break
                                 # Si les coordonnées de la réflexion correspondent à celles d'un autre atome pour tous les atomes n'appartenant pas au plan,
-                                # on a un plan de symétrie pour l'atome A1 et on stocke le vecteur normal et la constante d du plan
+                                # On a un plan de symétrie pour l'atome A1 et on stocke le vecteur normal et la constante d du plan
                             if is_reflected:
                                 is_symmetric[i] = True #pourtant is_reflected s'initialise à False, du coup là on teste s'il est resté Ã  False
                                 refl.append(True)
                                 break
                             else:
-                                refl.append(False)
-                    #print(refl) # les false et true correspondant à chaque phrase 
+                                refl.append(False) 
                     if False in refl:
                         continue
                     else:
                         print(f"Le plan contenant l'origine et les atomes {i+1} et {j+1} est un plan de symétrie de la molécule")
-                        is_symmetric_array[i][j]=True # correspond à la matrice avec tous les false et true 
+                        is_symmetric_array[i][j]=True  
         
 
-        #faire tout le calcul sur les coordonnées centrées (atome - centre de masse)
+        # Faire tout le calcul sur les coordonnées centrées (atome - centre de masse)
         centered_coordinates_array = translated_coordinates
-     #boucle sur chaque axe de rotation
+        # Boucle sur chaque axe de rotation
         for order in range(7,1,-1):
             angle = 2*np.pi/order #calcul de l'angle de rotation en radian
             cos = np.cos(angle)
             sin = np.sin(angle)
          
-         #boucle sur chaque atome
-         #len(centered_cordinates_array) correspond au nombre d'atomes dans la molécule chaque ligne renvoie les coordonnées d'un atome
+         # Boucle sur chaque atome
+         # len(centered_cordinates_array) correspond au nombre d'atomes dans la molécule chaque ligne renvoie les coordonnées d'un atome
             for i in range(len(centered_coordinates_array)):
                 if not np.array_equal(centered_coordinates_array[i],center):
                     x,y,z = centered_coordinates_array[i] #coordonnées d'un atome de la forme x, y, z
@@ -373,10 +371,10 @@ def open_mol_file():
                                              [ux*uz*(1-cos)-uy*sin, uy*uz*(1-cos)+ux*sin, (uz**2)*(1-cos)+cos]])
                  
                     # Application de la rotation aux coordonnées centrées
-                    #np.dot fait le calcul matriciel
+                    # np.dot fait le calcul matriciel
                     rotated_coordinates_array = np.dot(centered_coordinates_array, rotation_matrix)         
                     
-                    #après rotation on doit vérifier qu'on a une correspondance 1 à 1 entre les 2 matrices (avant et après rotation) pour chaque atome peu importe l'ordre dans lequel on les retrouve
+                    # Après rotation on doit vérifier qu'on a une correspondance 1 à 1 entre les 2 matrices (avant et après rotation) pour chaque atome peu importe l'ordre dans lequel on les retrouve
                     for j in rotated_coordinates_array:
                         equal = False
                         for k in centered_coordinates_array:
@@ -393,8 +391,8 @@ def open_mol_file():
 
         plt.show()
         
-# crée un bouton pour avoir accès à nos fichiers
+# Crée un bouton pour avoir accès à nos fichiers
 open_button = ttk.Button(root, text='Open a File', command=open_mol_file)
-#position et taille du bouton open a file
+# Position et taille du bouton open a file
 open_button.grid(column=0, row=1 , padx=10, pady=10)
 root.mainloop()
